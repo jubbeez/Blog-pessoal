@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,6 +33,7 @@ public class Usuario {
 	@Email(message = "O Atributo Usuário deve ser um email válido!")
 	private String usuario;
 
+    @Schema(example = "email@email.com.br")
 	@NotBlank(message = "O Atributo Senha é Obrigatório!")
 	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
 	private String senha;
@@ -42,8 +44,19 @@ public class Usuario {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
+	
+	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+	}
+	
+	public Usuario() { }
+	
 
-	/* Insira os Getters and Setters */
+	/* Getters and Setters */
 
 	public Long getId() {
 		return this.id;
@@ -92,5 +105,7 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
+	
+	
 
 }
